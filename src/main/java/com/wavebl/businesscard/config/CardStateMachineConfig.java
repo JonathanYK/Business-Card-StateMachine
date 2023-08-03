@@ -26,7 +26,7 @@ public class CardStateMachineConfig {
 		cardStateMachine.addTransition(CardState.ADDITIONAL_VERIFICATION, CardEvent.STRONG_VERIFICATION, CardState.STRONG_APPROVED);
 
 		// UNKNOWN states transitions:
-		cardStateMachine.addTransition(CardState.UNKNOWN, CardEvent.TRIGGER_VERIFICATION, CardState.PENDING_VERIFICATION); // Allow multiple next states for the same event
+		cardStateMachine.addTransition(CardState.UNKNOWN, CardEvent.TRIGGER_VERIFICATION, CardState.PENDING_VERIFICATION);
 		cardStateMachine.addTransition(CardState.PENDING_VERIFICATION, CardEvent.ABORT_VERIFICATION, CardState.UNKNOWN);
 		cardStateMachine.addTransition(CardState.PENDING_VERIFICATION, CardEvent.STRONG_VERIFICATION, CardState.STRONG_APPROVED);
 	}

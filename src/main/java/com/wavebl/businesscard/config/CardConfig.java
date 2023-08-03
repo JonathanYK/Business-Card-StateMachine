@@ -19,10 +19,9 @@ public class CardConfig {
     @Bean
     public CommandLineRunner commandLineRunner(CardRepository cardRepo, CardService service, CardController controller) {
         return args -> {
-            Card dan = new Card("Dan", "Tel Aviv");
+            Card dan = new Card("Dan", "Kfar Aviv");
             Card tomer = new Card("Tomer", "Kfar Saba");
             Card rotem = new Card("Rotem", "Ashdod");
-
 
             // add initCards as UNKNOWN
             createCards(new ArrayList<>(List.of(dan, tomer)), service, controller, false);

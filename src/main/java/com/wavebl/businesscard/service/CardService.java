@@ -8,7 +8,6 @@ import com.wavebl.businesscard.model.CardEvent;
 import com.wavebl.businesscard.model.CardState;
 import com.wavebl.businesscard.model.CardStateMachine;
 import com.wavebl.businesscard.repository.CardRepository;
-import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import java.util.Map;
 public class CardService {
 
     private final CardRepository cardRepository;
-    private final Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
     private final CardStateMachine cardStateMachine;
 
 
@@ -32,6 +30,7 @@ public class CardService {
         this.cardRepository = cardRepository;
         this.cardStateMachine = cardStateMachine;
     }
+
     public List<Card> retrieveAllCards() {
         return cardRepository.findAll();
     }
@@ -41,7 +40,7 @@ public class CardService {
 
         // define source of card
         String trustedSourceKey = bodyParams.getOrDefault("trustedSourceKey", null);
-        if (trustedSourceKey != null && trustedSourceKey.equals(dotenv.get("TRUSTED_SOURCE_KEY"))) {
+        if (trustedSourceKey != null && trustedSourceKey.equals(System.getenv("TRUSTED_SOURCE_KEY"))) {
             card.setState(CardState.KNOWN);
         } else { card.setState(CardState.UNKNOWN); }
 
@@ -96,7 +95,7 @@ public class CardService {
     // strongValidateAddr will execute strong verification,
     // verifies that address contains STRONG_VALIDATION_PHRASE
     private Boolean strongValidateAddr(String address) {
-        return address.toLowerCase().contains(dotenv.get("STRONG_VALIDATION_PHRASE"));
+        return address.toLowerCase().contains(System.getenv("STRONG_VALIDATION_PHRASE"));
     }
 
     @Transactional
@@ -122,6 +121,6 @@ public class CardService {
     }
 
     public void addSourceKey(Map<String, String> cardMap) {
-        cardMap.put("trustedSourceKey", dotenv.get("TRUSTED_SOURCE_KEY"));
+        cardMap.put("trustedSourceKey", System.getenv("TRUSTED_SOURCE_KEY"));
     }
 }

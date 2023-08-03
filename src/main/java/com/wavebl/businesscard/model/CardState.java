@@ -11,7 +11,7 @@ public enum CardState {
     PENDING_VERIFICATION,
     STRONG_APPROVED;
 
-    // Static set of verification states
+    // Static set of verification states defined to check if a state is a verification state
     private static final Set<CardState> verificationStates = EnumSet.of(PENDING_VERIFICATION, ADDITIONAL_VERIFICATION);
     public static Set<CardState> getVerificationStates() {
         return verificationStates;

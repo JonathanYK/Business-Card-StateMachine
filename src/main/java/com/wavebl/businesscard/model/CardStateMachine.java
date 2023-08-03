@@ -5,7 +5,7 @@ import com.wavebl.businesscard.exception.NextStateNotFoundException;
 import java.util.*;
 
 public class CardStateMachine {
-    // transitions holds map of states as key, and its values are sets of available states that by event
+    // transitions holds a map of states as key, and its values are sets of new states of CardEvent key
     private Map<CardState, Map<CardEvent, Set<CardState>>> transitions;
 
     public CardStateMachine() {
@@ -26,7 +26,7 @@ public class CardStateMachine {
 
     public CardState transit(CardState currState, CardEvent occurredEvent) {
 
-       // filter valid next states from occurredEvent
+       // Get inner map of new states by currState
        Map<CardEvent, Set<CardState>> nextStateByEvent = transitions.getOrDefault(currState, new HashMap<>());
 
        // validate that next state is a valid state for occurredEvent, and it is deterministic (only one move available)

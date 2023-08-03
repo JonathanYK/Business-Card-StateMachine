@@ -41,12 +41,5 @@ class BusinesscardApplicationTests {
 		CardState testState = stateMachine.transit(CardState.KNOWN, CardEvent.MANUAL_VERIFICATION);
 		assertEquals(testState, CardState.MANUAL_APPROVED);
 	}
-
-//	@Test
-//	void testManualVerificationFalseFlow() {
-//		CardState testState = stateMachine.transit(CardState.UNKNOWN, CardEvent.MANUAL_VERIFICATION);
-//		assertNotEquals(testState, CardState.MANUAL_APPROVED);
-//	}
-
 }
 
