@@ -3,7 +3,7 @@
 In this project, I have developed a Spring Boot Java application using Maven to manage business card states using a state machine. The application includes a REST controller with the following endpoints, synchronizing data to a PostgreSQL database through the Spring JPA access layer.
 
 API Endpoints
-(Postman collection json [here](https://github.com/JonathanYK/Business-Card-StateMachine/blob/dev/postman/BusinessCard-Testing.postman_collection.json)):
+(Postman collection json [here](https://github.com/JonathanYK/Business-Card-StateMachine/blob/main/postman/BusinessCard-Testing.postman_collection.json)):
 ```
 http://localhost:8080/card/all                             - GET all cards from PostgreSQL DB
 http://localhost:8080/card/add                             - POST a new card to PostgreSQL DB (as a JSON file):
