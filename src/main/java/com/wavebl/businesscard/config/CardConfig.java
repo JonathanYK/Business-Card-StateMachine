@@ -17,35 +17,33 @@ import java.util.Map;
 @Slf4j
 public class CardConfig {
     @Bean
-    public CommandLineRunner commandLineRunner(CardRepository cardRepo, CardService service, CardController controller) {
+    public CommandLineRunner initCardData(CardRepository cardRepo, CardService service, CardController controller) {
         return args -> {
-            Card dan = new Card("Dan", "Kfar Aviv");
-            Card tomer = new Card("Tomer", "Kfar Saba");
-            Card rotem = new Card("Rotem", "Ashdod");
+            List<Card> demoCards = createDemoCards();
+            addDemoCards(demoCards, service, controller);
 
-            // add initCards as UNKNOWN
-            createCards(new ArrayList<>(List.of(dan, tomer)), service, controller, false);
-
-            // add initCards as KNOWN
-            createCards(new ArrayList<>(List.of(rotem)), service, controller, true);
-
-            ArrayList<Card> finalDemoCards = new ArrayList<>(cardRepo.findAll());
+            List<Card> finalDemoCards = new ArrayList<>(cardRepo.findAll());
 
             controller.manApproveCard(finalDemoCards.get(2).getId());
             controller.verifyCard(finalDemoCards.get(1).getId());
 
             finalDemoCards = new ArrayList<>(cardRepo.findAll());
-            log.info("Added demo cards to DB: " + finalDemoCards);
-
+            log.info("Added demo cards to DB: {}", finalDemoCards);
         };
     }
 
-    public void createCards(List<Card> cardsList, CardService service, CardController controller, boolean isKnown) {
-        for (Card card : cardsList) {
+    private List<Card> createDemoCards() {
+        List<Card> demoCards = new ArrayList<>();
+        demoCards.add(new Card("Dan", "Kfar Aviv"));
+        demoCards.add(new Card("Tomer", "Kfar Saba"));
+        demoCards.add(new Card("Rotem", "Ashdod"));
+        return demoCards;
+    }
+
+    private void addDemoCards(List<Card> demoCards, CardService service, CardController controller) {
+        for (Card card : demoCards) {
             Map<String, String> cardMap = card.cardAsMap();
-            if (isKnown) {
-                service.addSourceKey(cardMap);
-            }
+            service.addSourceKey(cardMap);
             controller.addCard(cardMap);
         }
     }

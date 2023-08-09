@@ -9,7 +9,7 @@ import lombok.ToString;
 import java.util.HashMap;
 import java.util.Map;
 
-@Table
+@Table(name = "cards")
 @Getter
 @Setter
 @NoArgsConstructor
