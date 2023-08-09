@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: postgres-cards
+    image: postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    expose:
+      - ${DB_PORT}
+    networks:
+      - sharednet
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    links:
+      - db
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_URL: jdbc:postgresql://db:${DB_PORT}/cardsdb
+      DB_NAME: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      TRUSTED_SOURCE_KEY: ${TRUSTED_SOURCE_KEY}
+      STRONG_VALIDATION_PHRASE: ${STRONG_VALIDATION_PHRASE}
+    ports:
+      - "8080:8080"
+    networks:
+      - sharednet
+    depends_on:
+      - db
+
+networks:
+  sharednet:
